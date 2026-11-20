@@ -185,7 +185,8 @@ static char* textValue( char* ptr, json_t* property ) {
   * @retval Null pointer if any error occur. */
 static char* checkStr( char* ptr, char const* str ) {
     while( *str )
-        if ( *ptr++ != *str++ )
+        /* Stop at the end of the input: a truncated literal must not read past the buffer. */
+        if ( *ptr == '\0' || *ptr++ != *str++ )
             return 0;
     return ptr;
 }
